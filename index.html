@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+    <script src="jquery/jquery-3.6.0.js"></script>
+    <script>
+        $(function(){
+            var colors = ["red","green","white","orange","blue","brown","transparent","coral",'aqua',"violet","crimson","yellow","purple"]
+            for(i=0;i<colors.length;i++){
+                $('#clrs span:eq('+i+')').css('background',colors[i])
+            }
+            $('#clrs span').click(function(){
+                $('body > i').css('background',$(this).css('background'))
+            })
+// section 
+            $('#closefloating').click(function(){
+                $("#ar2").fadeOut(200)
+            })
+// section 
+            $('.addbtn').click(function(){
+                $("#ar2").fadeToggle(200)})
+//floating
+            $("*").mousemove(function(){
+                $('#elcolor').next().css("background",$('#elcolor').val())
+            })
+//apply 
+            $('#applying').click(function(){
+                $("#ar2").fadeOut()
+            })
+            $('#cancel').click(function(){
+                $("#ar2").hide()
+            })
+// clock btn
+            $('#clockicon').click(function(){
+                $('#clock').toggle()
+                $('#clockicon').toggleClass('activeclock')
+            })
+        })
+    </script>
+</head>
+<body class="d-grid px-5 mx-5" onload="document.getElementById('ae').click()">
+<i></i>
+    <nav class="row mt-2 d-flex justify-content-around">
+        <div id="brand" class="col-1 h2 text-light my-auto ">
+        
+        </div>
+        <ul class="list-group list-group-horizontal  col-9">
+            <li class="list-group-item text-center list-group-item-action py-2 active"><a href="index.html" class="text-light text-decoration-none">Home</a></li>
+            <li class="list-group-item text-center list-group-item-action py-2"><a href="shop.html" class="text-dark text-decoration-none">Shop</a></li>
+            <li class="list-group-item text-center list-group-item-action py-2"><a href="ins.html" class="text-dark text-decoration-none">Inscription</a></li>
+            <li id="clockicon" class=" btn ms-4 fs-3 rounded-circle" style="width: fit-content;height: fit-content;padding: 4px 6px;"">&#x1F551;</li>
+        </ul>
+        <div class="col-2 text-light" id="clock">
+            <span class="btn-group" style="margin-top:2px;">
+                <span class="btn btn-light px-3 py-2 " id="day"></span>
+                <span class="btn btn-light px-3 py-2 " id="day2"></span>
+                <span class="btn btn-light px-3 py-2 " id="month"></span>
+                <span class="btn btn-light px-3 py-2 " id="year"></span>
+            </span>
+            <span class="btn-group mx-5" style="margin-top:2px;">
+                <span class="btn btn-light fs-1 px-3 py-2  " id="hours"></span>
+                <span class="btn btn-light fs-1 px-3 py-2  " id="minutes"></span>
+                <span class="btn btn-light fs-1 px-3 py-2  " id="seconds"></span>
+            </span>
+        </div>    
+    </nav>
+    <hr class="text-light">
+    <div id="clrs" class="row ms-5 d-flex justify-content-center ">
+        <span class="btn mx-3 "></span>
+        <span class="btn mx-3 "></span>
+        <span class="btn mx-3 "></span>
+        <span class="btn mx-3 "></span>
+        <span class="btn mx-3 "></span>
+        <span class="btn mx-3 "></span>
+        <span class="btn mx-3 flex-fill border" style="box-shadow:0 0 20px  rgb(0, 0, 0),inset 3px 3px 10px #ffffff94,inset -5px -5px 10px #000000;"></span>
+        <span class="btn mx-3"></span>
+        <span class="btn mx-3"></span>
+        <span class="btn mx-3"></span>
+        <span class="btn mx-3"></span>
+        <span class="btn mx-3"></span>
+        <span class="btn mx-3"></span>
+        <span class=" mx-3"></span>
+    </div>
+
+    <hr class="text-light ">
+    
+    <section class="row d-flex">
+        <article id="ar1" class="row">
+            <button class="border-0 rounded-0" id="prv" onclick="previouss()"><</button>
+            <div class="col-12" id="article">
+                    <div id="ae">+</div>
+            </div>
+            <button class="border-0 ounded-0" id="nxt" onclick="nextt()">></button>
+        </article>
+
+        <article id="ar2" class="position-absolute w-100 h-100 start-0 top-0">
+            <div id="floating" class="alert d-grid">
+                <span class="btn-close position-absolute end-0 text-light  m-1" id="closefloating" ></span>
+                <div class="row">
+                    <span class="mx-4 position-relative" style="width:93%;height: 25%;"> <input type="color" id="elcolor" class="w-100 h-100"><s>Background</s></span>
+                </div>
+                <div id="tables" class="row ps-4">
+                    
+                    <table  class="col-5" style="width:52%;" >
+                        <tr><td>Width : </td><td><input id="width" type="number" class="form-control w-25"></td></tr>
+                        <tr><td>Height : </td><td><input id="height" type="number" class="form-control w-25"></td></tr>
+                        <tr><td>Padding : </td><td>
+                            <div id="padd"><select id="ptop"></select><select  id="pright"></select><select  id="pbottom"></select><select id="pleft"></select></div>
+                        </td></tr>
+
+                        <tr><td>Border : </td><td><select id="borderEp"></select><select  id="borderSt"></select><select  id="borderCl"></select></td></tr>
+
+                        <tr><td>Border-radius : </td><td>
+                            <div id="padd"><select id="radiustop"></select><select  id="radiusright"></select><select  id="radiusbottom"></select><select id="radiusleft"></select>
+                                <div class="form-check d-inline-block form-switch">
+                                    <input type="checkbox" class="ms-5 form-check-input me-2" id="circl"><label for="circl" class="form-check-label">Circle</label></div>
+                                </div>
+                        </td></tr>
+
+                    </table>
+
+                    <table  class="col-5"  >
+                        <tr><td>Color : </td><td><input type="color" class="form-control w-25" id="cclr"></td></tr>
+                        <tr><td>Rotate : </td><td><input type="number" class="form-control w-25" id="rotate"></td></tr>
+                        <tr><td>Cursor : </td><td>
+                            <select id="cursor"></select>
+                        </td></tr>
+
+                        <tr><td>Text : </td><td><textarea id="ta" cols="50" rows="5" class="p-3 form-control" placeholder="Ecrire un text ou des codes d'elements.."></textarea></td></tr>
+
+                    </table>
+                </div>
+
+
+                <div class="row mt-3">
+                    <button class="btn col-6 rounded-0 position-absolute bottom-0 btn-success" id="applying">APPLY</button>
+                    <button class="btn col-6 rounded-0 btn-danger position-absolute end-0 bottom-0" id="cancel">CANCEL</button>
+                </div>
+            </div>
+        </article>
+
+    </section>
+
+    <button  class="addbtn btn btn-primary rounded-circle"><p>&times;</p></button>
+
+    <script src="home.js"></script>
+</body>
+</html>

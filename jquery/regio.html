@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        span{color:red;}
+        b{color: green ;}
+        .invalid{color: red ;}
+    </style>
+    <script>
+
+        function vv(){
+            var c=0
+            var d = document
+            var nom = d.f.nom
+            var email = d.f.email
+            var tel = d.f.tel
+            var pwd = d.f.pwd
+            var Vnom = d.getElementById('Vnom')
+            var Vemail = d.getElementById('Vemail')
+            var Vtel = d.getElementById('Vphone')
+            var Vpwd = d.getElementById('Vpwd')
+            var nomPattern = /^[A-Z]{1}[a-z]+\s{1}[A-Z]{1}[a-z]+$/
+            var emailPattern = /^[a-zA-Z]+[\w-\.]+[a-zA-Z]+@[a-z]{3,7}\.(ma|com|org)$/
+            var telPattern = /^\+[\d]{3}\s[\d]{2}(\s|-)[\d]{2}(\s|-)[\d]{2}(\s|-)[\d]{2}$/
+            var pwdPattern = /^[a-zA-Z-@/\.=!\?]{6,}$/
+            ///////// 
+            if(nom.value.length<1 ){ Vnom.innerHTML = "* rempliiiiir"}
+            else{
+                if(nom.value.match(nomPattern)){
+                    Vnom.innerHTML = "<b>valid</b>"
+                    c+=1 }
+                else{
+                    Vnom.innerHTML = "format non valid" }
+            }
+            /////////
+            if(email.value.length<1 ){ Vemail.innerHTML = "* rempliiiiir"}
+            else{
+                if(email.value.match(emailPattern)){
+                    Vemail.innerHTML = "<b>valid</b>"
+                    c+=1 }
+                else{
+                    Vemail.innerHTML = "format non valid" }
+            }
+            /////////
+            if(tel.value.length<1 ){ Vtel.innerHTML = "* rempliiiiir"}
+            else{
+                if(tel.value.match(telPattern)){
+                    Vtel.innerHTML = "<b>valid</b>"
+                    c+=1 }
+                else{
+                    Vtel.innerHTML = "format non valid" }
+            }
+            //////////
+            if(pwd.value.length<1 ){ Vpwd.innerHTML = "* rempliiiiir"}
+            else{
+                if(pwd.value.match(pwdPattern)){
+                    Vpwd.innerHTML = "<b>valid</b>"
+                    c+=1 }
+                else{
+                    Vpwd.innerHTML = "format non valid" }
+            }
+
+
+            if(c==4){
+                document.f.btn.type = 'submit'
+                document.f.btn.click()
+            }
+
+
+        }
+
+
+            function ff(){
+                var c = document.querySelectorAll('#cb > .lois')
+                var n = ''
+                for(var i of c){
+                    if(i.checked){
+                        n+=i.value +', '
+                    }
+                }       
+                document.getElementById('aff').innerHTML = n
+            }
+            
+    </script>
+</head>
+<body>
+    <form action="" name="f" onsubmit="v2()">
+        <table>
+            <tr>
+                <td>
+                    Nom Complete : 
+                </td>
+                <td>
+                    <input type="text" name="nom"><span id="Vnom">*</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Email : 
+                </td>
+                <td>
+                    <input type="email" name="email"><span id="Vemail">*</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="tel">Phone : </label>
+                </td>
+                <td>
+                    <input type="tel" name="tel"><span id="Vphone">*</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="pwd">Password : </label>
+                </td>
+                <td>
+                    <input type="password" name="pwd"><span id="Vpwd">*</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="g">Gender : </label>
+                </td>
+                <td id="cb">
+                    <input type="checkbox" class="lois" value="sport">sport
+                    <input type="checkbox" class="lois" value="playing">playing
+                    <input type="checkbox" class="lois" value="lecture">lecture
+                    <input type="checkbox" class="lois" value="dancing">dancing
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" >
+                    <input style="width:100%;" name="btn"  type="button" onclick="vv()" value="Valider">
+                </td>
+            </tr>
+        </table>
+        <span id="aff"></span>
+    </form>
+</body>
+</html>

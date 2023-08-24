@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="ins.css">
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+    <script src="jquery/jquery-3.6.0.js"></script>
+    <script>
+        $(function(){
+// clock btn
+            $('#clockicon').click(function(){
+                $('#clock').toggle()
+                $('#clockicon').toggleClass('activeclock')
+            })
+////show psw 
+var c = false
+                $('.pswshow').click(function(){
+                    if(c==false){
+                        $(this).html('&#x1F441;')
+                        $(this).prev().attr('type',"text")
+                        c = true
+                    }
+                    else{
+                        c = false
+                        $(this).html('---')
+                        $(this).prev().attr('type',"password")
+                    }
+                })
+
+                var p1 = $('#passw')
+            var p2 = $('#pwd2')
+                var regex = /^[\w @_\.-/#]{8,}$/
+            p1.keyup(function(){
+                if((p1.val()).match(regex)  ){
+                    p2.removeAttr('disabled')
+                }
+                else{
+                    p2.attr('disabled',"")
+                }
+            })
+
+            p2.keyup(function(){
+                if(p2.val()==p1.val()){
+                p2.removeAttr("pattern")
+                }
+                else{
+                    p2.attr('pattern','')
+                }
+            })
+
+
+$('#logg').click(function(){
+    $('#fs2').animate({top:"100%"},300)
+    $('#fs1').animate({top:"10%"},400)
+})
+$('#signn').click(function(){
+    $('#fs2').animate({top:"14%"},400)
+    $('#fs1').animate({top:"-150%"},300)
+})
+                    
+var c=true
+$('#showinfo').click(function(){
+    if(c==false){
+        $('#myusers').animate({left:"-50%"})
+        c=true
+        $(this).css('transform','rotate(180deg)')
+    }
+    else{
+        $('#myusers').animate({left:"15%"})
+        c=false
+        $(this).css('transform','rotate(0deg)')
+    }
+})
+
+        })
+    </script>
+</head>
+<body class="d-grid px-5 mx-5" onload="document.getElementById('ae').click()">
+
+<i></i>
+    <nav class="row mt-2 mx-5 d-flex justify-content-around">
+        <div id="brand" class="col-1 h2 text-light my-auto ">
+        </div>
+        <ul class="list-group list-group-horizontal  col-10">
+            <li class="list-group-item text-center list-group-item-action py-2"><a href="index.html" class="text-dark text-decoration-none ">Home</a></li>
+            <li class="list-group-item text-center list-group-item-action py-2 "><a href="shop.html" class="text-dark text-decoration-none " >Shop</a></li>
+            <li class="list-group-item text-center list-group-item-action py-2 active"><a href="ins.html" class="text-light text-decoration-none">Inscription</a></li>
+            <li id="clockicon" class=" btn ms-4 fs-3 rounded-circle" style="width: fit-content;height: fit-content;padding: 4px 6px;"">&#x1F551;</li>
+        </ul>
+        <div class="col-1 text-light " id="clock">
+            <span class="btn-group" style="margin-top:2px;">
+                <span class="btn btn-light px-3 py-2 " id="day"></span>
+                <span class="btn btn-light px-3 py-2 " id="day2"></span>
+                <span class="btn btn-light px-3 py-2 " id="month"></span>
+                <span class="btn btn-light px-3 py-2 " id="year"></span>
+            </span>
+            <span class="btn-group mx-5" style="margin-top:2px;">
+                <span class="btn btn-light fs-1 px-3 py-2  " id="hours"></span>
+                <span class="btn btn-light fs-1 px-3 py-2  " id="minutes"></span>
+                <span class="btn btn-light fs-1 px-3 py-2  " id="seconds"></span>
+            </span>
+        </div>    
+    </nav>
+    <hr class="text-light mt-1">
+
+
+
+
+    <fieldset id="fs1" class="border  border-3 align-self-start border-primary position-relative rounded-3 w-50 bg-dark p-5">
+        <form id="form1" action="" class=" py-3">
+            <h1 class="text-light btn btn-primary btn-lg fs-1 w-100 rounded-0 py-4 border border-primary border-3 position-absolute start-0 top-0 fw-bold text-center">Log In</h1>
+            <table cellpadding="20" class="mt-5 w-100 table table-borderless">
+                <tr>
+                    <td>
+                        <label for="usr" class="form-label text-light mt-5 mb-4">Username : </label>
+                    </td>
+                    <td>
+                        <input type="text" id="usr" class="form-control mt-5" required>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="pwd" class="form-label text-light">Password : </label>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <input type="password" id="pwd" class="form-control" required>
+                            <button type="button" class="pswshow btn btn-primary text-dark fw-bold">---</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class=" d-flex justify-content-center">
+                        <span id="message1" class="text-dark w-100"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="button" value="LOG IN" id="valider" class="btn btn-primary fw-bold w-100">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button id="signn" type="button" class="btn btn-sm btn-success w-100 text-center">crée un compte </button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </fieldset>
+<section class=" d-flex justify-content-center ">
+
+
+    <button id='showinfo' class="btn py-5 btn-primary text-center fs-1 fw-bold"><</button>
+
+
+
+
+<table  id="myusers"  class="table text-center table-bordered table-hover table-stiped table-dark">
+    <tr>
+        <th>usernames</th>
+        <th>passwords</th>
+    </tr>
+</table>
+
+
+
+
+
+
+    <fieldset id="fs2" class="border border-3 border-primary rounded-3 bg-dark p-4">
+        <form action="" class="was-validated  pt-5 mt-5" onsubmit="ajouter()">
+            <h1 class="text-light btn btn-primary btn-lg fs-1 w-100 rounded-0 py-3 position-absolute start-0 top-0 fw-bold text-center">Sign In</h1>
+
+            <table id="form2" cellpadding="10">
+                <tr>
+                    <td >
+                        <input type="text" class="form-control" size="23" id="prenom" title="trois caractere (a-zA-Z) ou plus" placeholder="prenom" required pattern="[a-zA-Z]{3,}">
+                    </td>
+                    <td>
+                        <input type="text"  class="form-control" id="nom" placeholder="nom" title="trois caractere (a-zA-Z) ou plus" required pattern="[a-zA-Z]{3,}">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="text"  class="form-control" id="username" placeholder="username" title="ensemble de ( a-zA-Z .-_ )" required pattern="[a-zA-Z]+[.-_]?[\w]{5}[\w]+">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div>
+                                <input type="text" value="abdel_ghani@gmail.com" class="form-control" id="email" title="exemple ( abdel_ghani@gmail.com )" placeholder="email" pattern="[a-zA-Z]+[.-_]?[\w]+@[a-z]{4,7}\.(com|ma|net|org)" required>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="text"  class="form-control py-2  " pattern="[0-9]{6}" placeholder="code postale" required title="un ensemble de 6 chiffres">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                            <input type="tel" value="+212 000-000-000"  class="form-control" title="ex : (+212 000-000-000) ou (+212 000 000 000)" id="phone" placeholder="phone" pattern="\+[\d]{3}\s[\d]{3}[ -]{1}[\d]{3}[ -]{1}[\d]{3}" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" pattern="[\w @_\.-/#]{8,}"  class="form-control" title="ensemble de : a-z A-Z 0-9 @_.-/#" id="passw" placeholder="password" required>
+                </td>
+                    <td>
+                            <input type="text"  title="le meme que le champ de mot de pass"  class="form-control" id="pwd2" pattern="" placeholder="comfirm password" disabled required>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" id="sign" value="Sign In" class="btn btn-primary w-100   " >
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button id="logg" type="button" class="btn btn-sm btn-success w-100 text-center">Vous avez deja un compte ? Log In ?</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </fieldset>
+</section>
+
+
+
+    <script src="bootstrap/bootstrap.min.js"></script>
+    <script src="ins.js"></script>
+</body>
+</html>

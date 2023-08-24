@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="shop.css">
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+    <script src="jquery/jquery-3.6.0.js"></script>
+    <script>
+        $(function(){
+            var ttlstock = ttlprice = pricesmessage = buymessage = 0
+// clock btn
+            $('#clockicon').click(function(){
+                $('#clock').toggle()
+                $('#clockicon').toggleClass('activeclock')})
+
+
+
+                // $('video').playbackRate = 3.0
+//main color 
+
+$('#main-clr , #clr2').change(function(){
+    var op = $(this).val()
+        $('.active a').css({"background-color":op,"border-color":op})
+        $('.dollars').css({"background-color":op,"border-color":op})
+        $('.buy').css({"background-color":op,"border-color":op})
+        $('.Q').css({"background-color":op,"border-color":op})
+        $("#main-clr").css({"background-color":op,"border-color":op})
+        $('body > i').css("background-color",op)
+    })
+
+// card 
+    $('.cu2').mouseover(function(){
+        $(this).parent().siblings().addClass('originmove')
+        $(this).parent().removeClass('topmove')
+        $(this).parent().addClass('bottommove')
+    })
+    $('.cu1').mouseover(function(){
+        $(this).parent().siblings().addClass('originmove')
+        $(this).parent().removeClass('bottommove')
+        $(this).parent().addClass('topmove')
+    })
+    $('.c1').dblclick(function(){
+        $(this).toggleClass('originmove')
+    })
+    $('.decrease').click(function(){
+        var i = parseInt($(this).next().text())-1
+        if(i<1){i=1}
+        $(this).next().text(i)
+        var Qstock = parseInt($(this).parents('.card-body').siblings('.stockage').find('kbd').text())
+        if(Qstock >= parseInt($(this).next().text())){
+            $(this).next().removeClass('bg-danger')
+        }
+    })
+    $('.increase').click(function(){
+        var i = parseInt($(this).prev().text())+1
+        $(this).prev().text(i)
+        var Qstock = parseInt($(this).parents('.card-body').siblings('.stockage').find('kbd').text())
+        if(parseInt($(this).prev().text())>Qstock){
+            $(this).prev().addClass('bg-danger')}
+    })
+///////////////////////////////////////////buying
+    $('.buy').click(function(){
+
+
+    $('.alert').animate({"top":"-125px"},100)
+    $('.alert').animate({"top":"20px"},400)
+    // $('.alert').delay(3000).animate({"top":"-125px"},1000)
+// error alert 
+        var errstock = parseInt($(this).parents('.card-body').siblings('.stockage').find('kbd').text())
+        var errbtn = parseInt($(this).parent().siblings('.erralert').find('.Q').text())
+        if(errstock<errbtn){
+            $('.alert').addClass('alert-danger')
+            $('.alert h2').text('Quantité limitée !')
+            $('.alert b:contains("Note")').next().text("La quantité demandée n'est pas disponible pour le moment")
+        }
+        else{
+            $('.alert').removeClass('alert-danger')
+            $('.alert').html('<span class="btn cls btn-close float-end"></span><h2 class="">Demande passée avec succès ♥</h2><b>Note : </b><span>vous avez demandé <b class="qq"></b> de <b class="produitname"></b></span>')
+            $('.alert .qq').text($(this).parent().siblings().find(".Q").text())
+            $('.alert .produitname').text($(this).parent().parent().siblings(".card-title").text())
+// le totale
+            var quant = parseInt($(this).parent().prev().find('.Q').text())
+            var prices = parseInt($(this).parents(".card-body").siblings(".dollars").find('.ddd').text())
+            ttlstock += quant
+            prices *= quant
+            ttlprice += prices
+            var  d = new Date().toLocaleString()
+            var tr1 = document.createElement("tr")
+            var tdQU = document.createElement("td")
+            var tdName = document.createElement('td')
+            var tdT = document.createElement('td')
+            var tdQT = document.createElement('td')
+            var tdPT = document.createElement('td')
+            tdQU.innerHTML = ($(this).parent().siblings().find(".Q").text())
+            tdName.innerHTML = ($(this).parent().parent().siblings('.card-title').text())
+            tdT.innerHTML = (d)
+            tdQT.innerHTML = (ttlstock)
+            tdPT.innerHTML = (ttlprice)+"$"
+            tr1.append(tdQU,tdName,tdName,tdT,tdQT,tdPT)
+            $('.table').append(tr1)
+        }
+// close alert
+        $('.cls').click(function(){
+        $(this).parent().animate({"top":"-125px"})})
+// decrese the stock on click
+        var stk = parseInt($(this).parents('.card-body').siblings('.stockage').find('kbd').text())
+            var stk22 = parseInt($(this).parent().prev().find('.Q').text())
+            if(stk >= quant){
+                var newstock = stk - stk22
+            } 
+            if(newstock<0){newstock = 0}
+            $(this).parents('.card-body').siblings('.stockage').find('kbd').text(newstock)
+        })
+        $('.buy , .quantity').dblclick(function(event){
+            event.stopPropagation()})
+
+// show statics
+var cx = false
+$('.showstat').click(function(){
+    if(cx==true){$('.totale').animate({left:"-790px"},300)
+        cx = false  }
+    else{ $('.totale').animate({left:"0px"},400)
+        cx = true   }
+})
+
+$(window).click(function(){
+    $('.totale').animate({left:"-790px"},300)
+})
+$('.totale , .showstat').click(function(event){
+    event.stopPropagation()
+})
+
+
+        })
+    </script>
+</head>
+<body class="container-fluid">
+    <video src="video/video-bg (153).mp4" muted autoplay loop class="container-fluid" id="vd"></video>
+    <i></i>
+    <u></u>
+    <div class="d-grid px-5 mx-5">
+            <nav class="row mt-2 d-flex justify-content-around">
+                <div id="brand" class="col-1 h2 text-light my-auto ">
+                </div>
+                <ul class="list-group list-group-horizontal  col-10">
+                    <li class="list-group-item text-center list-group-item-action py-2"><a href="index.html" class="text-dark text-decoration-none ">Home</a></li>
+                    <li class="list-group-item text-center list-group-item-action py-2 active"><a href="shop.html" class="text-light text-decoration-none " >Shop</a></li>
+                    <li class="list-group-item text-center list-group-item-action py-2"><a href="ins.html" class="text-dark text-decoration-none">Inscription</a></li>
+                    <li id="clockicon" class=" btn ms-4 fs-3 rounded-circle" style="width: fit-content;height: fit-content;padding: 4px 6px;"">&#x1F551;</li>
+                </ul>
+                <div class="col-1 text-light " id="clock">
+                    <span class="btn-group" style="margin-top:2px;">
+                        <span class="btn btn-light px-3 py-2 " id="day"></span>
+                        <span class="btn btn-light px-3 py-2 " id="day2"></span>
+                        <span class="btn btn-light px-3 py-2 " id="month"></span>
+                        <span class="btn btn-light px-3 py-2 " id="year"></span>
+                    </span>
+                    <span class="btn-group mx-5" style="margin-top:2px;">
+                        <span class="btn btn-light fs-1 px-3 py-2  " id="hours"></span>
+                        <span class="btn btn-light fs-1 px-3 py-2  " id="minutes"></span>
+                        <span class="btn btn-light fs-1 px-3 py-2  " id="seconds"></span>
+                    </span>
+                </div>    
+            </nav>
+            <hr class="text-light">
+        
+            <section>
+                <article>
+        <!-- card -->
+                    <div class="card c1 originmove" style="height:440px;">
+                        <u class="cu1"></u>
+                        <u class="cu2"></u>
+                        <i class="dollars"><span class="ddd">992<span style='color:gold !important;font-size:1em !important;margin-left:3px !important;'>$</span></span></i>
+                        <div class="stockage text-light text-center" >stockage : <kbd class="bg-danger">5</kbd></div>
+                        <img src="images/0 (1).jpg"  class="card-img-top ">
+                        <div class="card-body">
+                            <h4 class="card-title">ASUS Rog</h4>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur aolore iure perspiciatis est distinctio eveniet.</p>
+                            <div class="d-grid">
+                                <div class="row erralert">
+                                    <div  class="quantity" style="transform: scale(.7)">
+                                        <button  class="btn decrease fs-5 fw-bolder px-3 mx-2">-</button>
+                                        <button  class="btn Q btn-primary text-sucess fw-bold fs-4 mx-2">1</button>
+                                        <button class="btn increase fs-5 fw-bolder mx-2">+</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button  class="btn  buy btn-primary rounded-0">Buy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+        <!-- card -->
+        <div class="card c1 originmove" style="height:440px;">
+            <u class="cu1"></u>
+            <u class="cu2"></u>
+            <i class="dollars"><span class="ddd">313<span style='color:gold !important;font-size:1em !important;margin-left:3px !important;'>$</span></span></i>
+            <div class="stockage text-light text-center" >stockage : <kbd class="bg-danger">2</kbd></div>
+            <img src="images/0 (2).jpg"  class="card-img-top ">
+            <div class="card-body">
+                <h4 class="card-title">Infinix Hot 8</h4>
+                <p class="card-text">Lorem ipsum dolor sit amet consectetur aolore iure perspiciatis est distinctio eveniet.</p>
+                <div class="d-grid">
+                    <div class="row erralert">
+                        <div  class="quantity" style="transform: scale(.7)">
+                            <button  class="btn decrease fs-5 fw-bolder px-3 mx-2">-</button>
+                            <button  class="btn Q btn-primary text-sucess fw-bold fs-4 mx-2">1</button>
+                            <button class="btn increase fs-5 fw-bolder mx-2">+</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button  class="btn  buy btn-primary rounded-0">Buy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- card -->
+        <div class="card c1 originmove" style="height:440px;">
+            <u class="cu1"></u>
+            <u class="cu2"></u>
+            <i class="dollars"><span class="ddd">219<span style='color:gold !important;font-size:1em !important;margin-left:3px !important;'>$</span></span></i>
+            <div class="stockage text-light text-center" >stockage : <kbd class="bg-danger">4</kbd></div>
+            <img src="images/0 (3).jpg"  class="card-img-top ">
+            <div class="card-body">
+                <h4 class="card-title">Spark 8 TECNO </h4>
+                <p class="card-text">Lorem ipsum dolor sit amet consectetur aolore iure perspiciatis est distinctio eveniet.</p>
+                <div class="d-grid">
+                    <div class="row erralert">
+                        <div  class="quantity" style="transform: scale(.7)">
+                            <button  class="btn decrease fs-5 fw-bolder px-3 mx-2">-</button>
+                            <button  class="btn Q btn-primary text-sucess fw-bold fs-4 mx-2">1</button>
+                            <button class="btn increase fs-5 fw-bolder mx-2">+</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button  class="btn  buy btn-primary rounded-0">Buy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- card -->
+                    <div class="card c1 originmove" style="height:440px;">
+                        <u class="cu1"></u>
+                        <u class="cu2"></u>
+                        <i class="dollars"><span class="ddd">749<span style='color:gold !important;font-size:1em !important;margin-left:3px !important;'>$</span></span></i>
+                        <div class="stockage text-light text-center" >stockage : <kbd class="bg-danger">9</kbd></div>
+                        <img src="images/0 (4).jpg"  class="card-img-top ">
+                        <div class="card-body">
+                            <h4 class="card-title">Dell</h4>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur aolore iure perspiciatis est distinctio Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque voluptas sit amet, fugiat, illo atque modi obcaecati voluptatibus debitis natus quaerat maiores nesciunt accusantium id molestias! Amet quos nobis commodi. eveniet.</p>
+                            <div class="d-grid">
+                                <div class="row erralert">
+                                    <div  class="quantity" style="transform: scale(.7)">
+                                        <button  class="btn decrease fs-5 fw-bolder px-3 mx-2">-</button>
+                                        <button  class="btn Q btn-primary text-sucess fw-bold fs-4 mx-2">1</button>
+                                        <button class="btn increase fs-5 fw-bolder mx-2">+</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button  class="btn  buy btn-primary rounded-0">Buy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+        <!-- card -->
+                    <div class="card c1 originmove" style="height:440px;">
+                        <u class="cu1"></u>
+                        <u class="cu2"></u>
+                        <i class="dollars"><span class="ddd">757<span style='color:gold !important;font-size:1em !important;margin-left:3px !important;'>$</span></span></i>
+                        <div class="stockage text-light text-center" >stockage : <kbd class="bg-danger">6</kbd></div>
+                        <img src="images/0 (5).jpg"  class="card-img-top ">
+                        <div class="card-body">
+                            <h4 class="card-title">Xiaomi Redmi Note 11</h4>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur aolore iure perspiciatis Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus, veritatis deleniti perspiciatis id commodi dolores aperiam distinctio fuga iure quas, officiis explicabo praesentium, aliquam repudiandae ratione porro quo omnis! Qui? Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam at dolore deserunt inventore temporibus sint incidunt est quod, perferendis aspernatur totam itaque molestias sed voluptatibus laudantium delectus cupiditate mollitia consequuntur! est distinctio eveniet.</p>
+                            <div class="d-grid">
+                                <div class="row erralert">
+                                    <div  class="quantity" style="transform: scale(.7)">
+                                        <button  class="btn decrease fs-5 fw-bolder px-3 mx-2">-</button>
+                                        <button  class="btn Q btn-primary text-sucess fw-bold fs-4 mx-2">1</button>
+                                        <button class="btn increase fs-5 fw-bolder mx-2">+</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button  class="btn  buy btn-primary rounded-0">Buy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+        <!-- card -->
+                    <div class="card c1 originmove" style="height:440px;">
+                        <u class="cu1"></u>
+                        <u class="cu2"></u>
+                        <i class="dollars"><span class="ddd">999<span style='color:gold !important;font-size:1em !important;margin-left:3px !important;'>$</span></span></i>
+                        <div class="stockage text-light text-center" >stockage : <kbd class="bg-danger">2</kbd></div>
+                        <img src="images/0 (6).jpg"  class="card-img-top ">
+                        <div class="card-body">
+                            <h4 class="card-title">TV Samsung</h4>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur aolore iure perspiciatis est distinctio eveniet.</p>
+                            <div class="d-grid">
+                                <div class="row erralert">
+                                    <div  class="quantity" style="transform: scale(.7)">
+                                        <button  class="btn decrease fs-5 fw-bolder px-3 mx-2">-</button>
+                                        <button  class="btn Q btn-primary text-sucess fw-bold fs-4 mx-2">1</button>
+                                        <button class="btn increase fs-5 fw-bolder mx-2">+</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button  class="btn  buy btn-primary rounded-0">Buy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+        <!-- card -->
+                    <div class="card c1 originmove" style="height:440px;">
+                        <u class="cu1"></u>
+                        <u class="cu2"></u>
+                        <i class="dollars"><span class="ddd">840<span style='color:gold !important;font-size:1em !important;margin-left:3px !important;'>$</span></span></i>
+                        <div class="stockage text-light text-center" >stockage : <kbd class="bg-danger">7</kbd></div>
+                        <img src="images/0 (7).jpg"  class="card-img-top ">
+                        <div class="card-body">
+                            <h4 class="card-title">TV SONY</h4>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur aolore Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita consectetur saepe harum suscipit fugiat quaerat explicabo, architecto illo nam non ad nostrum, corporis voluptatem eaque sapiente doloremque incidunt debitis voluptate. iure perspiciatis est distinctio eveniet.</p>
+                            <div class="d-grid">
+                                <div class="row erralert">
+                                    <div  class="quantity" style="transform: scale(.7)">
+                                        <button  class="btn decrease fs-5 fw-bolder px-3 mx-2">-</button>
+                                        <button  class="btn Q btn-primary text-sucess fw-bold fs-4 mx-2">1</button>
+                                        <button class="btn increase fs-5 fw-bolder mx-2">+</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button  class="btn  buy btn-primary rounded-0">Buy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+        <!-- card -->
+                    <div class="card c1 originmove" style="height:440px;">
+                        <u class="cu1"></u>
+                        <u class="cu2"></u>
+                        <i class="dollars"><span class="ddd">939<span style='color:gold !important;font-size:1em !important;margin-left:3px !important;'>$</span></span></i>
+                        <div class="stockage text-light text-center" >stockage : <kbd class="bg-danger">3</kbd></div>
+                        <img src="images/0 (8).jpg"  class="card-img-top ">
+                        <div class="card-body">
+                            <h4 class="card-title">iPhone 12 Pro</h4>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur aolore iure perspiciatis est distinctio eveniet.</p>
+                            <div class="d-grid">
+                                <div class="row erralert">
+                                    <div  class="quantity" style="transform: scale(.7)">
+                                        <button  class="btn decrease fs-5 fw-bolder px-3 mx-2">-</button>
+                                        <button  class="btn Q btn-primary text-sucess fw-bold fs-4 mx-2">1</button>
+                                        <button class="btn increase fs-5 fw-bolder mx-2">+</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button  class="btn  buy btn-primary rounded-0">Buy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+        <!-- card -->
+                    <div class="card c1 originmove" style="height:440px;">
+                        <u class="cu1"></u>
+                        <u class="cu2"></u>
+                        <i class="dollars"><span class="ddd">459<span style='color:gold !important;font-size:1em !important;margin-left:3px !important;'>$</span></span></i>
+                        <div class="stockage text-light text-center" >stockage : <kbd class="bg-danger">5</kbd></div>
+                        <img src="images/0 (9).jpg"  class="card-img-top ">
+                        <div class="card-body">
+                            <h4 class="card-title">Lenovo</h4>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur aolore iure Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus id voluptates veniam omnis, expedita aliquam eaque nesciunt nulla nostrum quo repellat laudantium minima velit, corrupti assumenda. Odit provident et sequi. perspiciatis est distinctio eveniet.</p>
+                            <div class="d-grid">
+                                <div class="row erralert">
+                                    <div  class="quantity" style="transform: scale(.7)">
+                                        <button  class="btn decrease fs-5 fw-bolder px-3 mx-2">-</button>
+                                        <button  class="btn Q btn-primary text-sucess fw-bold fs-4 mx-2">1</button>
+                                        <button class="btn increase fs-5 fw-bolder mx-2">+</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button  class="btn  buy btn-primary rounded-0">Buy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+        <!-- card -->
+                    <div class="card c1 originmove" style="height:440px;">
+                        <u class="cu1"></u>
+                        <u class="cu2"></u>
+                        <i class="dollars"><span class="ddd">302<span style='color:gold !important;font-size:1em !important;margin-left:3px !important;'>$</span></span></i>
+                        <div class="stockage text-light text-center" >stockage : <kbd class="bg-danger">4</kbd></div>
+                        <img src="images/0 (10).jpg"  class="card-img-top ">
+                        <div class="card-body">
+                            <h4 class="card-title">Acer</h4>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur aolore iure perspiciatis est distinctio eveniet.</p>
+                            <div class="d-grid">
+                                <div class="row erralert">
+                                    <div  class="quantity" style="transform: scale(.7)">
+                                        <button  class="btn decrease fs-5 fw-bolder px-3 mx-2">-</button>
+                                        <button  class="btn Q btn-primary text-sucess fw-bold fs-4 mx-2">1</button>
+                                        <button class="btn increase fs-5 fw-bolder mx-2">+</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button  class="btn  buy btn-primary rounded-0">Buy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+        <!-- card -->
+                    <div class="card c1 originmove" style="height:440px;">
+                        <u class="cu1"></u>
+                        <u class="cu2"></u>
+                        <i class="dollars"><span class="ddd">290<span style='color:gold !important;font-size:1em !important;margin-left:3px !important;'>$</span></span></i>
+                        <div class="stockage text-light text-center" >stockage : <kbd class="bg-danger">3</kbd></div>
+                        <img src="images/0 (11).jpg"  class="card-img-top ">
+                        <div class="card-body">
+                            <h4 class="card-title">Huawei</h4>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur aolore iure perspiciatis est distinctio eveniet.</p>
+                            <div class="d-grid">
+                                <div class="row erralert">
+                                    <div  class="quantity" style="transform: scale(.7)">
+                                        <button  class="btn decrease fs-5 fw-bolder px-3 mx-2">-</button>
+                                        <button  class="btn Q btn-primary text-sucess fw-bold fs-4 mx-2">1</button>
+                                        <button class="btn increase fs-5 fw-bolder mx-2">+</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button  class="btn  buy btn-primary rounded-0">Buy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+        <!-- card -->
+                    <div class="card c1 originmove" style="height:440px;">
+                        <u class="cu1"></u>
+                        <u class="cu2"></u>
+                        <i class="dollars"><span class="ddd">620<span style='color:gold !important;font-size:1em !important;margin-left:3px !important;'>$</span></span></i>
+                        <div class="stockage text-light text-center" >stockage : <kbd class="bg-danger">2</kbd></div>
+                        <img src="images/0 (12).jpg"  class="card-img-top ">
+                        <div class="card-body">
+                            <h4 class="card-title">Samsung Note Edge</h4>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur aolore iure perspiciatis est distinctio eveniet.</p>
+                            <div class="d-grid">
+                                <div class="row erralert">
+                                    <div  class="quantity" style="transform: scale(.7)">
+                                        <button  class="btn decrease fs-5 fw-bolder px-3 mx-2">-</button>
+                                        <button  class="btn Q btn-primary text-sucess fw-bold fs-4 mx-2">1</button>
+                                        <button class="btn increase fs-5 fw-bolder mx-2">+</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button  class="btn  buy btn-primary rounded-0">Buy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+        <!-- card -->
+                    <div class="card c1 originmove" style="height:440px;">
+                        <u class="cu1"></u>
+                        <u class="cu2"></u>
+                        <i class="dollars"><span class="ddd">999<span style='color:gold !important;font-size:1em !important;margin-left:3px !important;'>$</span></span></i>
+                        <div class="stockage text-light text-center" >stockage : <kbd class="bg-danger">1</kbd></div>
+                        <img src="images/0 (13).jpg"  class="card-img-top ">
+                        <div class="card-body">
+                            <h4 class="card-title">LG 50inch</h4>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur aolore iure perspiciatis est distinctio eveniet.</p>
+                            <div class="d-grid">
+                                <div class="row erralert">
+                                    <div  class="quantity" style="transform: scale(.7)">
+                                        <button  class="btn decrease fs-5 fw-bolder px-3 mx-2">-</button>
+                                        <button  class="btn Q btn-primary text-sucess fw-bold fs-4 mx-2">1</button>
+                                        <button class="btn increase fs-5 fw-bolder mx-2">+</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button  class="btn  buy btn-primary rounded-0">Buy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+        <!-- card -->
+                    <div class="card c1 originmove" style="height:440px;">
+                        <u class="cu1"></u>
+                        <u class="cu2"></u>
+                        <i class="dollars"><span class="ddd">840<span style='color:gold !important;font-size:1em !important;margin-left:3px !important;'>$</span></span></i>
+                        <div class="stockage text-light text-center" >stockage : <kbd class="bg-danger">5</kbd></div>
+                        <img src="images/0 (14).jpg"  class="card-img-top ">
+                        <div class="card-body">
+                            <h4 class="card-title">Apple iPad Pro</h4>
+                            <p class="card-text">Lorem ipsum dolor Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti provident natus nulla impedit reprehenderit quis maxime. Suscipit accusamus sapiente quas, eaque id dicta voluptas nihil, at enim ad obcaecati repellendus. sit amet consectetur aolore iure perspiciatis est distinctio eveniet.</p>
+                            <div class="d-grid">
+                                <div class="row erralert">
+                                    <div  class="quantity" style="transform: scale(.7)">
+                                        <button  class="btn decrease fs-5 fw-bolder px-3 mx-2">-</button>
+                                        <button  class="btn Q btn-primary text-sucess fw-bold fs-4 mx-2">1</button>
+                                        <button class="btn increase fs-5 fw-bolder mx-2">+</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button  class="btn  buy btn-primary rounded-0">Buy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+        <!-- card -->
+                    <div class="card c1 originmove" style="height:440px;">
+                        <u class="cu1"></u>
+                        <u class="cu2"></u>
+                        <i class="dollars"><span class="ddd">799<span style='color:gold !important;font-size:1em !important;margin-left:3px !important;'>$</span></span></i>
+                        <div class="stockage text-light text-center" >stockage : <kbd class="bg-danger">1</kbd></div>
+                        <img src="images/0 (15).jpg"  class="card-img-top ">
+                        <div class="card-body">
+                            <h4 class="card-title">Samsung Galaxy Tab</h4>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur aolore iure perspiciatis Lorem ipsum, dolor sit amet consectetur adipisicing elit. Libero soluta officia tempora necessitatibus ad quidem cupiditate delectus a dignissimos rerum, consequatur accusamus mollitia quos aliquid quo, ipsam repellendus? Porro, facere.lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil nemo vel non accusantium. Aliquam libero praesentium sapiente consequuntur. Illum hic rerum, laboriosam esse laborum dolore dolorem vero aliquam voluptate perspiciatis. est distinctio eveniet.</p>
+                            <div class="d-grid">
+                                <div class="row erralert">
+                                    <div  class="quantity" style="transform: scale(.7)">
+                                        <button  class="btn decrease fs-5 fw-bolder px-3 mx-2">-</button>
+                                        <button  class="btn Q btn-primary text-sucess fw-bold fs-4 mx-2">1</button>
+                                        <button class="btn increase fs-5 fw-bolder mx-2">+</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button  class="btn  buy btn-primary rounded-0">Buy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+        <!-- card -->
+                    <div class="card c1 originmove" style="height:440px;">
+                        <u class="cu1"></u>
+                        <u class="cu2"></u>
+                        <i class="dollars"><span class="ddd">404<span style='color:gold !important;font-size:1em !important;margin-left:3px !important;'>$</span></span></i>
+                        <div class="stockage text-light text-center" >stockage : <kbd class="bg-danger">4</kbd></div>
+                        <img src="images/0 (16).jpg"  class="card-img-top ">
+                        <div class="card-body">
+                            <h4 class="card-title">Oppo Reno</h4>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur aolore iure perspiciatis est distinctio eveniet.</p>
+                            <div class="d-grid">
+                                <div class="row erralert">
+                                    <div  class="quantity" style="transform: scale(.7)">
+                                        <button  class="btn decrease fs-5 fw-bolder px-3 mx-2">-</button>
+                                        <button  class="btn Q btn-primary text-sucess fw-bold fs-4 mx-2">1</button>
+                                        <button class="btn increase fs-5 fw-bolder mx-2">+</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button  class="btn  buy btn-primary rounded-0">Buy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+        <!-- card -->
+                    <div class="card c1 originmove" style="height:440px;">
+                        <u class="cu1"></u>
+                        <u class="cu2"></u>
+                        <i class="dollars"><span class="ddd">289<span style='color:gold !important;font-size:1em !important;margin-left:3px !important;'>$</span></span></i>
+                        <div class="stockage text-light text-center" >stockage : <kbd class="bg-danger">5</kbd></div>
+                        <img src="images/0 (17).jpg"  class="card-img-top ">
+                        <div class="card-body">
+                            <h4 class="card-title">laptop</h4>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur aolore iure perspiciatis est distinctio eveniet.</p>
+                            <div class="d-grid">
+                                <div class="row erralert">
+                                    <div  class="quantity" style="transform: scale(.7)">
+                                        <button  class="btn decrease fs-5 fw-bolder px-3 mx-2">-</button>
+                                        <button  class="btn Q btn-primary text-sucess fw-bold fs-4 mx-2">1</button>
+                                        <button class="btn increase fs-5 fw-bolder mx-2">+</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button  class="btn  buy btn-primary rounded-0">Buy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+        <!-- card -->
+                    <div class="card c1 originmove" style="height:440px;">
+                        <u class="cu1"></u>
+                        <u class="cu2"></u>
+                        <i class="dollars"><span class="ddd">992<span style='color:gold !important;font-size:1em !important;margin-left:3px !important;'>$</span></span></i>
+                        <div class="stockage text-light text-center" >stockage : <kbd class="bg-danger">5</kbd></div>
+                        <img src="images/0 (1).jpg"  class="card-img-top ">
+                        <div class="card-body">
+                            <h4 class="card-title">laptop</h4>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur aolore iure perspiciatis est distinctio eveniet.</p>
+                            <div class="d-grid">
+                                <div class="row erralert">
+                                    <div  class="quantity" style="transform: scale(.7)">
+                                        <button  class="btn decrease fs-5 fw-bolder px-3 mx-2">-</button>
+                                        <button  class="btn Q btn-primary text-sucess fw-bold fs-4 mx-2">1</button>
+                                        <button class="btn increase fs-5 fw-bolder mx-2">+</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button  class="btn  buy btn-primary rounded-0">Buy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+        <!-- card -->
+                    <div class="card c1 originmove" style="height:440px;">
+                        <u class="cu1"></u>
+                        <u class="cu2"></u>
+                        <i class="dollars"><span class="ddd">992<span style='color:gold !important;font-size:1em !important;margin-left:3px !important;'>$</span></span></i>
+                        <div class="stockage text-light text-center" >stockage : <kbd class="bg-danger">5</kbd></div>
+                        <img src="images/0 (1).jpg"  class="card-img-top ">
+                        <div class="card-body">
+                            <h4 class="card-title">laptop</h4>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur aolore iure perspiciatis est distinctio eveniet.</p>
+                            <div class="d-grid">
+                                <div class="row erralert">
+                                    <div  class="quantity" style="transform: scale(.7)">
+                                        <button  class="btn decrease fs-5 fw-bolder px-3 mx-2">-</button>
+                                        <button  class="btn Q btn-primary text-sucess fw-bold fs-4 mx-2">1</button>
+                                        <button class="btn increase fs-5 fw-bolder mx-2">+</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button  class="btn  buy btn-primary rounded-0">Buy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+        <!-- card -->
+                    <div class="card c1 originmove" style="height:440px;">
+                        <u class="cu1"></u>
+                        <u class="cu2"></u>
+                        <i class="dollars"><span class="ddd">992<span style='color:gold !important;font-size:1em !important;margin-left:3px !important;'>$</span></span></i>
+                        <div class="stockage text-light text-center" >stockage : <kbd class="bg-danger">5</kbd></div>
+                        <img src="images/0 (1).jpg"  class="card-img-top ">
+                        <div class="card-body">
+                            <h4 class="card-title">laptop</h4>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur aolore iure perspiciatis est distinctio eveniet.</p>
+                            <div class="d-grid">
+                                <div class="row erralert">
+                                    <div  class="quantity" style="transform: scale(.7)">
+                                        <button  class="btn decrease fs-5 fw-bolder px-3 mx-2">-</button>
+                                        <button  class="btn Q btn-primary text-sucess fw-bold fs-4 mx-2">1</button>
+                                        <button class="btn increase fs-5 fw-bolder mx-2">+</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button  class="btn  buy btn-primary rounded-0">Buy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+        
+                    
+        
+                    
+                    
+        
+        <!-- alert -->
+                </article>
+                    <div class="alert alert-success p-4 " >
+                        <span class="btn cls btn-close float-end" ></span>
+                        <h2 class="">Demande passée avec succès ♥</h2>
+                        <b>Note : </b><span>vous avez demandé <b class="qq"></b> de <b class="produitname"></b></span>
+                    </div>
+        
+        
+        <!-- // toteale --> 
+        <button class="btn showstat shadow btn-light  btn-lg"><img src="images/statistics (1).png" ></button>
+                    <div class="bg-light totale ">
+                        <table  class="table table-bordered table-striped table-hover text-center table-dark" ">
+                            <tr>
+                                <th>Q.Unique</th>
+                                <th>Produit</th>
+                                <th>Temps de commande</th>
+                                <th>Q.Totale</th>
+                                <th>Prix Totale</th>
+                            </tr>
+        
+                        </table>
+                        <select id="main-clr">
+                            <option value="#0d6efd" class="bg-primary"></option>
+                            <option value="#dc3545" class="bg-danger"></option>
+                            <option value="#198754" class="bg-success"></option>
+                            <option value="#212529" class="bg-dark"></option>
+                            <option value="#ffc107" class="bg-warning"></option>
+                            <option value="#0dcaf0" class="bg-info"></option>
+                            <option value="#6c757d" class="bg-secondary"></option>
+                        </select>
+                        <input type="color" id="clr2">
+                    </div>
+            </section>
+        
+
+    </div>        
+
+    <script src="shop.js"></script>
+</body>
+</html>
